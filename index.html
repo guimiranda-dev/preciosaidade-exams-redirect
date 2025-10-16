@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecionando...</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .url {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 14px;
+            color: #667eea;
+            margin-top: 20px;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h1>Redirecionando...</h1>
+        <p id="message">Aguarde um momento</p>
+        <div class="url" id="targetUrl"></div>
+    </div>
+
+    <script>
+        function redirect() {
+            // Pega o caminho da URL atual (tudo depois do domínio)
+            const path = window.location.pathname;
+            
+            // Remove a barra inicial se existir
+            const id = path.startsWith('/') ? path.substring(1) : path;
+            
+            // Verifica se há um ID válido
+            if (!id || id === '') {
+                document.getElementById('message').textContent = 'Nenhum ID fornecido na URL';
+                document.getElementById('message').classList.add('error');
+                document.getElementById('targetUrl').textContent = 'Use o formato: https://exm.app.br/1234-1234-1234-1234';
+                document.querySelector('.spinner').style.display = 'none';
+                return;
+            }
+            
+            // Monta a URL de destino
+            const targetUrl = `https://appv2.preciosaidade.com.br/files/${id}`;
+            
+            // Mostra a URL de destino
+            document.getElementById('targetUrl').textContent = targetUrl;
+            
+            // Redireciona após 1 segundo
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 1000);
+        }
+        
+        // Executa o redirecionamento quando a página carregar
+        redirect();
+    </script>
+</body>
+</html>
